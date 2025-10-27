@@ -6,17 +6,23 @@ export default function Users() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('https://disc-assignment-5-users-api-iyct.onrender.com/api/users')
-      .then(res => res.json()) // I think I could also use asynch and await 
-      .then(data => {
+    const fetchUsers = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch('http://localhost:3003/users');
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
         setUsers(data);
-        setLoading(false);
-      })
-      .catch(err => {
+      } catch (err) {
+        console.error('Failed to fetch users', err);
         setError('so sorry but I cannot fetch the data lol');
+      } finally {
         setLoading(false);
-      });
-  }, []); //because I only want to run and fetch once when the component mounts, the depedency arrray should be empty
+      }
+    };
+
+    fetchUsers();
+  }, []); // run once on mount
 
   if (loading) return <p>Loading users... please be patient</p>;
   if (error) return <p>{error}</p>;
@@ -27,11 +33,9 @@ export default function Users() {
       <div className="products">
         {users.map(user => (
           <div className="product-card" key={user.id}>
-            <img src={user.profilePicture} alt={user.firstName} className="product-img" />
-            <h2>{user.firstName} {user.lastName}</h2>
+            <h2>{user.first_name} {user.last_name}</h2>
+            <h1>{user.id}</h1>
             <p>{user.email}</p>
-            <p>{user.major} ({user.graduationYear})</p>
-            <p>{user.bio}</p>
           </div>
         ))}
       </div>

@@ -9,7 +9,7 @@ export default function Users() {
     const fetchUsers = async () => {
       setLoading(true);
       try {
-        const res = await fetch('http://localhost:3003/users');
+        const res = await fetch('http://localhost:3003/users-with-majors');
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         setUsers(data);
@@ -37,6 +37,7 @@ export default function Users() {
             <h1>{user.id}</h1>
             <p>{user.email}</p>
             <p>{user.major}</p>
+             <p>{user.major_table.school}</p>
           </div>
         ))}
       </div>

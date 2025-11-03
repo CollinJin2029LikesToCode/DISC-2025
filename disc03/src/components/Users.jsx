@@ -36,6 +36,7 @@ export default function Users() {
             <h2>{user.first_name} {user.last_name}</h2>
             <h1>{user.id}</h1>
             <p>{user.email}</p>
+            <p>{user.major}</p>
           </div>
         ))}
       </div>
